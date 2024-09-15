@@ -54,3 +54,19 @@ end
 Process.info(self(), :messages)
 ```
 
+
+```elixir
+Chronus.MessageServer.start()
+Chronus.Scheduler.start()
+
+{:ok, pid} = Chronus.ServerProcess.start
+
+entry1 = Chronus.ScheduledMessage.new(%{
+  body: "03:20!!!",
+  send_at: "2024-09-15T06:20:00Z",
+  from: "user_8345943559494395495",
+  to: "chat_234982347348734748748"
+})
+
+Chronus.ServerProcess.put(pid, entry1)
+```

@@ -1,5 +1,7 @@
+
 defmodule Chronus.ScheduledMessage do
   alias Chronus.ScheduledMessage
+
   @enforce_keys [:body, :send_at, :from, :to]
 
   defstruct body: nil, send_at: nil, from: nil, to: nil
@@ -19,9 +21,8 @@ defmodule Chronus.ScheduledMessage do
   defp validate(%__MODULE__{} = scheduled_message), do: scheduled_message
 end
 
-# entry = Chronus.ScheduledMessage.new(%{
-#    body: "Olá!",
-#    send_at: "2024-09-15 20:01:22",
-#    from: "user_8345943559494395495",
-#    to: "chat_234982347348734748748"
-#  })
+defimpl Jason.Encoder, for: Chronus.ScheduledMessage do
+  def encode(%Chronus.ScheduledMessage{body: body, send_at: send_at, from: from, to: to}, opts) do
+    Jason.Encode.map(%{body: body, send_at: send_at, from: from, to: to}, opts)
+  end
+end

@@ -9,17 +9,7 @@ defmodule Chronus.ServerProcess do
   end
 
   def put(pid, value) do
-    GenServer.cast(pid, {:put, value, self()})
-  end
-
-  def put_and_respond(pid, value) do
-    GenServer.cast(pid, {:put_and_respond, value, self()})
-
-    receive do
-      {:response, response} -> response
-    after
-      5000 -> :timeout
-    end
+    GenServer.cast(pid, {:put, value})
   end
 
   def get(pid) do
@@ -30,10 +20,14 @@ defmodule Chronus.ServerProcess do
     {:ok, ListScheduledMessages.new()}
   end
 
-  def handle_cast({:put, entry, from_pid}, state) do
+  def handle_cast({:put, entry}, state) do
     list = ListScheduledMessages.add_entry(state, entry)
 
-    Chronus.Scheduler.put(entry, from_pid)
+    json_entry = %{
+      text: entry.body
+    }
+
+    Chronus.Scheduler.put(json_entry, entry.send_at)
 
     {:noreply, list}
   end
