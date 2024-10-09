@@ -1,19 +1,18 @@
 defmodule Chronus.ServerProcess do
   alias Chronus.ListScheduledMessages
-  alias Chronus.ServerProcess
 
   use GenServer
 
-  def start do
-    GenServer.start(ServerProcess, nil)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  def put(pid, value) do
-    GenServer.cast(pid, {:put, value})
+  def put(value) do
+    GenServer.cast(__MODULE__, {:put, value})
   end
 
-  def get(pid) do
-    GenServer.call(pid, {:get})
+  def get() do
+    GenServer.call(__MODULE__, {:get})
   end
 
   def init(_) do
@@ -24,7 +23,8 @@ defmodule Chronus.ServerProcess do
     list = ListScheduledMessages.add_entry(state, entry)
 
     json_entry = %{
-      text: entry.body
+      text: entry.body,
+      to: entry.to
     }
 
     Chronus.Scheduler.put(json_entry, entry.send_at)

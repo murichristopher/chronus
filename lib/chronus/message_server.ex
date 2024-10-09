@@ -2,7 +2,7 @@ defmodule Chronus.MessageServer do
   use GenServer
   require Logger
 
-  def start() do
+  def start_link(_) do
     GenServer.start_link(__MODULE__, nil, name: :message_server)
   end
 
@@ -16,7 +16,7 @@ defmodule Chronus.MessageServer do
   end
 
   def handle_info({:receive_message, message}, state) do
-    Logger.debug("Received message: #{inspect(message)}. Processing now...")
+    Logger.debug("Received message via send_after: #{inspect(message)}. Processing now...")
     process_message(message)
     {:noreply, state}
   end

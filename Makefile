@@ -1,5 +1,8 @@
 RUNNING_RABBIT := $(shell docker ps -a --filter "name=my_rabbit" --format "{{.Names}}")
 
+start:
+	mix run --no-halt
+
 console:
 	iex -S mix
 

@@ -1,8 +1,15 @@
 defmodule Chronus.AMQPService do
   require Logger
 
+  # Modify the connection options to include RabbitMQ credentials
   def publish_message(queue, message) do
-    with {:ok, connection} <- AMQP.Connection.open(),
+    connection_options = [
+      username: "user",
+      password: "password",
+      host: "localhost"
+    ]
+
+    with {:ok, connection} <- AMQP.Connection.open(connection_options),
          {:ok, channel} <- AMQP.Channel.open(connection),
          :ok <- declare_queue(channel, queue),
          :ok <- AMQP.Basic.publish(channel, "", queue, message) do

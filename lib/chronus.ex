@@ -1,39 +1,31 @@
-defmodule CalculatorGenServer do
-  use GenServer
+defmodule Chronus.Application do
+  use Application
 
-  def init(value) do
-    {:ok, value}
+  def start(_type, _args) do
+    children = [
+      {Bandit, plug: Chronus.MyPlug, port: 3000},
+      Chronus.MessageServer,
+      Chronus.Scheduler,
+      {Chronus.ServerProcess, []}
+    ]
+
+    opts = [strategy: :one_for_one, name: Chronus.Supervisor]
+    {:ok, _pid} = Supervisor.start_link(children, opts)
+
+    schedule_initial_tasks()
+
+    {:ok, _pid}
   end
 
-  def start(initial_value) do
-    GenServer.start(__MODULE__, initial_value)
-  end
+  defp schedule_initial_tasks do
+    entry1 =
+      Chronus.ScheduledMessage.new(%{
+        body: "03:20!!!",
+        send_at: "2024-10-09T04:23:00Z",
+        from: "user_8345943559494395495",
+        to: "chat_234982347348734748748"
+      })
 
-  def get(pid) do
-    GenServer.call(pid, :get)
-  end
-
-  def double(pid) do
-    GenServer.cast(pid, :double)
-  end
-
-  def handle_call(:get, _, state) do
-    {:reply, state, state}
-  end
-
-  def handle_cast(:double, state) do
-    {:noreply, state * 2}
-  end
-
-  def handle_info(_, state) do
-    {:noreply, state}
+    Chronus.ServerProcess.put(entry1)
   end
 end
-
-# {:ok, pid} = CalculatorGenServer.start(2)
-
-# CalculatorGenServer.double(pid)
-# CalculatorGenServer.double(pid)
-# CalculatorGenServer.double(pid)
-# CalculatorGenServer.get(pid)
-# |> IO.inspect()
