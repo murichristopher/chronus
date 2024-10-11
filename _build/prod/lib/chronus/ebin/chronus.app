@@ -1,7 +1,7 @@
 {application,chronus,
              [{optional_applications,[]},
               {applications,[kernel,stdlib,elixir,logger,prometheus_ex,amqp,
-                             jason,bandit]},
+                             jason,bandit,prometheus_plugs]},
               {description,"chronus"},
               {modules,['Elixir.Chronus.AMQPService',
                         'Elixir.Chronus.Application',
@@ -13,7 +13,8 @@
                         'Elixir.Chronus.ScheduledMessage',
                         'Elixir.Chronus.Scheduler',
                         'Elixir.Chronus.ServerProcess',
-                        'Elixir.Jason.Encoder.Chronus.ScheduledMessage']},
+                        'Elixir.Jason.Encoder.Chronus.ScheduledMessage',
+                        'Elixir.MetricsExporter','Elixir.MetricsSetup']},
               {registered,[]},
               {vsn,"0.1.0"},
               {mod,{'Elixir.Chronus.Application',[]}}]}.
