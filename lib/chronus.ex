@@ -7,6 +7,7 @@ defmodule Chronus.Application do
       Chronus.MessageServer,
       Chronus.Scheduler,
       Chronus.CacheServer,
+      {Prometheus.Metric, []},
       {Chronus.ServerProcess, []}
     ]
 

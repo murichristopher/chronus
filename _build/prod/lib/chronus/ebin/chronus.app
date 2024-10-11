@@ -1,6 +1,7 @@
 {application,chronus,
              [{optional_applications,[]},
-              {applications,[kernel,stdlib,elixir,logger,amqp,jason,bandit]},
+              {applications,[kernel,stdlib,elixir,logger,prometheus_ex,amqp,
+                             jason,bandit]},
               {description,"chronus"},
               {modules,['Elixir.Chronus.AMQPService',
                         'Elixir.Chronus.Application',
