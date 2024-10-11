@@ -29,6 +29,8 @@ defmodule Chronus.ServerProcess do
 
     Chronus.Scheduler.put(json_entry, entry.send_at)
 
+    Chronus.CacheServer.put(entry)
+
     {:noreply, list}
   end
 

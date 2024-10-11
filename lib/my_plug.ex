@@ -10,6 +10,10 @@ defmodule Chronus.MyPlug do
     Chronus.MessageController.create(conn, conn.params)
   end
 
+  get "/messages" do
+    Chronus.MessageController.index(conn, conn.params)
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end

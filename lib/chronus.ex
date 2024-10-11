@@ -6,26 +6,26 @@ defmodule Chronus.Application do
       {Bandit, plug: Chronus.MyPlug, port: 3000},
       Chronus.MessageServer,
       Chronus.Scheduler,
+      Chronus.CacheServer,
       {Chronus.ServerProcess, []}
     ]
 
     opts = [strategy: :one_for_one, name: Chronus.Supervisor]
-    {:ok, _pid} = Supervisor.start_link(children, opts)
 
-    schedule_initial_tasks()
-
-    {:ok, _pid}
+    Supervisor.start_link(children, opts)
   end
 
-  defp schedule_initial_tasks do
-    entry1 =
-      Chronus.ScheduledMessage.new(%{
-        body: "03:20!!!",
-        send_at: "2024-10-09T04:23:00Z",
-        from: "user_8345943559494395495",
-        to: "chat_234982347348734748748"
-      })
+  # defp schedule_initial_tasks do
+  #   now = DateTime.utc_now() |> DateTime.add(10, :second)
 
-    Chronus.ServerProcess.put(entry1)
-  end
+  #   scheduled_message =
+  #     Chronus.ScheduledMessage.new(%{
+  #       body: "03:20!!!",
+  #       send_at: DateTime.to_iso8601(now),
+  #       from: "user_8345943559494395495",
+  #       to: "5511971485860"
+  #     })
+
+  #   Chronus.ServerProcess.put(scheduled_message)
+  # end
 end

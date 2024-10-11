@@ -70,3 +70,46 @@ entry1 = Chronus.ScheduledMessage.new(%{
 
 Chronus.ServerProcess.put(pid, entry1)
 ```
+
+```elixir
+:ets.new(:messages, [
+  :named_table,
+  :public,
+  read_concurrency: true,
+  write_concurrency: true
+])
+
+scheduled_entry = Chronus.ScheduledMessage.new(%{
+  body: "03:20!!!",
+  send_at: "2024-09-15T06:20:00Z",
+  from: "user_8345943559494395495",
+  to: "chat_234982347348734748748"
+})
+
+:ets.insert(:messages, {:message_list, []})
+
+current_list =  :ets.lookup(:messages, :message_list) |> Keyword.get(:message_list)
+
+updated_list = [scheduled_entry | current_list]
+
+:ets.insert(:messages, {:message_list, updated_list})
+
+
+Chronus.CacheServer.start_link()
+
+scheduled_entry = Chronus.ScheduledMessage.new(%{
+  body: "03:20!!!",
+  send_at: "2024-09-15T06:20:00Z",
+  from: "user_8345943559494395495",
+  to: "chat_234982347348734748748"
+})
+
+Chronus.CacheServer.put(scheduled_entry)
+Chronus.CacheServer.get()
+```
+
+```bash
+mix compile
+
+MIX_ENV=prod mix release
+```
