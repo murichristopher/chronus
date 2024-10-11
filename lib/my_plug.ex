@@ -2,6 +2,7 @@ defmodule Chronus.MyPlug do
   use Plug.Router
 
   plug(Plug.Logger)
+  plug(MetricsExporter)
   plug(Plug.Parsers, parsers: [:json], pass: ["application/json"], json_decoder: Jason)
   plug(:match)
   plug(:dispatch)

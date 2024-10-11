@@ -24,7 +24,8 @@ defmodule Chronus.MixProject do
       {:amqp, "~> 3.3"},
       {:jason, "~> 1.2"},
       {:bandit, "~> 1.0"},
-      {:prometheus_ex, "~> 3.0"}
+      {:prometheus_ex, "~> 3.0"},
+      {:prometheus_plugs, "~> 1.1"}
     ]
   end
 end

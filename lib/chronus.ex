@@ -7,11 +7,12 @@ defmodule Chronus.Application do
       Chronus.MessageServer,
       Chronus.Scheduler,
       Chronus.CacheServer,
-      {Prometheus.Metric, []},
       {Chronus.ServerProcess, []}
     ]
 
     opts = [strategy: :one_for_one, name: Chronus.Supervisor]
+
+    MetricsSetup.setup()
 
     Supervisor.start_link(children, opts)
   end
