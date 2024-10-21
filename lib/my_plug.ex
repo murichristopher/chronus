@@ -15,6 +15,10 @@ defmodule Chronus.MyPlug do
     Chronus.MessageController.index(conn, conn.params)
   end
 
+  get "/contacts" do
+    Chronus.ContactController.index(conn, conn.params)
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end
