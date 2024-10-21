@@ -19,6 +19,10 @@ defmodule Chronus.MyPlug do
     Chronus.ContactController.index(conn, conn.params)
   end
 
+  get "/connect" do
+    Chronus.ConnectController.index(conn, conn.params)
+  end
+
   match _ do
     send_resp(conn, 404, "Not found")
   end
