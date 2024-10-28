@@ -26,7 +26,8 @@ defmodule Chronus.MixProject do
       {:req, "~> 0.3.0"},
       {:bandit, "~> 1.0"},
       {:prometheus_ex, "~> 3.0"},
-      {:prometheus_plugs, "~> 1.1"}
+      {:prometheus_plugs, "~> 1.1"},
+      {:new_relic_agent, "~> 1.0"}
     ]
   end
 end
