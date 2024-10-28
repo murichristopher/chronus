@@ -13,5 +13,6 @@ else
 	docker run --name my_rabbit -p 5672:5672 -p 15672:15672 -d rabbitmq:3.13-management
 endif
 
-
-
+build:
+	MIX_ENV=prod mix release
+	_build/prod/rel/chronus/bin/chronus start

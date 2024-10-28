@@ -113,3 +113,11 @@ mix compile
 
 MIX_ENV=prod mix release
 ```
+
+### Deploy
+
+```bash
+MIX_ENV=prod mix release
+
+_build/prod/rel/chronus/bin/chronus start
+```
